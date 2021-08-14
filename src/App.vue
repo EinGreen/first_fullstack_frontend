@@ -4,7 +4,7 @@
 
     <section>
       <h2>Post Candy:</h2>
-      <form id="candy_form" action="javascript:void(0)">
+      <form id="post_candy_form" action="javascript:void(0)">
         <input id="name_input" type="text" placeholder="name">
         <input id="description_input" type="text" placeholder="description">
         <input id="price_input" type="text" placeholder="price">
@@ -64,7 +64,7 @@ export default {
   methods: {
     postCandy(){
       axios.request({
-        url: `${process.env.VUE_APP_API_URL}/candy`,
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/candy`,
         method: "POST",
         data:{
           name: document.getElementById("name_input").value,
@@ -74,8 +74,7 @@ export default {
         } 
       }).then((res) => {
         this.candies.push(res.data);
-        this.getCandies();
-        document.getElementById("candy_form").reset();
+        document.getElementById("post_candy_form").reset();
         this.post_status = "Candy Posted!"
       }).catch((err) => {
         console.log(err)
@@ -84,7 +83,7 @@ export default {
     },
     patchCandy(){
       axios.request({
-        url: `${process.env.VUE_APP_API_URL}/candy`,
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/candy`,
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         data: {
@@ -96,7 +95,6 @@ export default {
         },
       }).then((res) => {
         this.candies.push(res.data);
-        this.getCandies();
         document.getElementById("patch_candy_form").reset();
         console.log(res.data);
         this.patch_status = "Candy Updated!"
@@ -106,8 +104,8 @@ export default {
       });
     },
     deleteCandy() {
-    axios.request({
-        url: `${process.env.VUE_APP_API_URL}/candy`,
+      axios.request({
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/candy`,
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         data: {
@@ -121,7 +119,6 @@ export default {
           }
         }
         document.getElementById("deleteForm").reset();
-        this.getCandies();
         this.delete_status = "Candy Removed"
       }).catch((err) => {
         console.log(err);
@@ -132,16 +129,16 @@ export default {
   mounted() {
     this.loading_status = "Loading Candy";
     axios.request({
-        url: `${process.env.VUE_APP_API_URL}/candy`,
-        method: "GET",
-      }).then((res) => {
-        console.log(res);
-        this.candies = res.data
-        this.loading_status = ""
-      }).catch((err) => {
-        console.log(err);
-        this.loading_status = "Failed to Load Candy"
-      });
+      url: `${process.env.VUE_APP_BASE_DOMAIN}/candy`,
+      method: "GET",
+    }).then((res) => {
+      console.log(res);
+      this.candies = res.data
+      this.loading_status = ""
+    }).catch((err) => {
+      console.log(err);
+      this.loading_status = "Failed to Load Candy"
+    });
   },
 }
 </script>

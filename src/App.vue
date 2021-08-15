@@ -109,7 +109,7 @@ export default {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         data: {
-          candyId: document.getElementById("deleteId").value,
+          candyId: document.getElementById("deletion_id").value,
         },
       }).then((res) => {
         res;
